@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricerca di Mercato - Foodtruck</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        select, input, button {
+            margin-top: 5px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <section id="landing">
+        <h1>Ciao!</h1>
+        <p>Stiamo facendo una breve ricerca di mercato.<p>
+	<p>Apprezziamo il tempo che ci dedicherai.<p>
+	<p>Ti preghiamo di rispondere nel modo più sincero possibile.<p>
+	<p>Grazie.</p>
+        <button onclick="startSurvey()">Inizia</button>
+    </section>
+
+    <!-- Survey Form -->
+    <section id="survey" style="display:none;">
+        <form action="server_endpoint_url" method="POST">
+            <!-- Sezione Anagrafica -->
+            <div class="section">
+                <h2>Sezione 1: Informazioni personali</h2>
+                <label>Sesso:</label>
+                <select name="sesso" required>
+                    <option value="">Seleziona</option>
+                    <option value="M">Maschio</option>
+                    <option value="F">Femmina</option>
+                    <option value="Altro">Altro</option>
+                </select>
+
+                <label>Età:</label>
+		<select name="eta" required>
+    			<option value="">Seleziona la tua fascia d'età</option>
+    			<option value="1-18">Meno di 18 anni</option>
+   			<option value="18-25">18-25 anni</option>
+    			<option value="26-35">26-35 anni</option>
+   			<option value="36-50">35-50 anni</option>
+   			<option value="50+">50 anni o più</option>
+		</select>
+
+                <label>Regione:</label>
+                <select name="regione" id="regioni" required onchange="updateProvinces()">
+                    <option value="">Seleziona Regione</option>
+                    <option value="Abruzzo">Abruzzo</option>
+                    <option value="Basilicata">Basilicata</option>
+                    <option value="Calabria">Calabria</option>
+                    <option value="Campania">Campania</option>
+                    <option value="Emilia-Romagna">Emilia-Romagna</option>
+                    <option value="Friuli Venezia Giulia">Friuli Venezia Giulia</option>
+                    <option value="Lazio">Lazio</option>
+                    <option value="Liguria">Liguria</option>
+                    <option value="Lombardia">Lombardia</option>
+                    <option value="Marche">Marche</option>
+                    <option value="Molise">Molise</option>
+                    <option value="Piemonte">Piemonte</option>
+                    <option value="Puglia">Puglia</option>
+                    <option value="Sardegna">Sardegna</option>
+                    <option value="Sicilia">Sicilia</option>
+                    <option value="Toscana">Toscana</option>
+                    <option value="Trentino-Alto Adige">Trentino-Alto Adige</option>
+                    <option value="Umbria">Umbria</option>
+                    <option value="Valle d'Aosta">Valle d'Aosta</option>
+                    <option value="Veneto">Veneto</option>
+                </select>
+
+                <label>Provincia:</label>
+                <select name="provincia" id="province" required>
+                    <option value="">Seleziona Provincia</option>
+                </select>
+
+                <label>Grandezza nucleo familiare:</label>
+                <select name="nucleo_familiare" required>
+                    <option value="">Seleziona</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4+">4+</option>
+                </select>
+
+		<label>Qual è la tua fascia di reddito mensile?</label>
+		<select name="reddito_mensile" required>
+    			<option value="">Seleziona la tua fascia di reddito</option>
+    			<option value="<1000">Meno di 1000€</option>
+   			 <option value="1000-2000">1000€ - 2000€</option>
+   			 <option value="2000-3000">2000€ - 3000€</option>
+    			<option value=">3000">Oltre 3000€</option>
+		</select>
+            </div>
+
+            <!-- Sezione 2 abitudini alimentari -->
+            <div class="section">
+                <h2>Sezione 2: Abitudini Alimentari</h2>
+                
+		<label>Quante volte al mese mangi fuori casa? (1: mai, 5: molto spesso)</label>
+		<select name="mangi_fuori" required>
+    			<option value="">Seleziona una risposta</option>
+   			<option value="1">1: Mai</option>
+   			<option value="2">2</option>
+   			<option value="3">3</option>
+    			<option value="4">4</option>
+   			<option value="5">5: Molto spesso</option>
+		</select>
+
+		<label>Sei vegetariano?</label>
+                <select name="vegetariano" required>
+                    <option value="">Seleziona una risposta</option>
+		    <option value="Sì">Sì</option>
+                    <option value="No">No</option>
+                </select>
+
+                <label>Sei vegano?</label>
+                <select name="vegano" required>
+		    <option value="">Seleziona una risposta</option>
+                    <option value="Sì">Sì</option>
+                    <option value="No">No</option>
+                </select>
+
+		<label>Quanto sei interessato a provare cibi nuovi o internazionali? (1: mai, 5: sempre)</label>
+		<select name="interesse_cibi_nuovi" required>
+   			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Mai</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Sempre</option>
+		</select> 
+
+		<label>Quanto sei interessato a opzioni senza glutine o senza lattosio? (1: per niente, 5: molto)</label>
+		<select name="interesse_senza_glutine_lattosio" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+            </div>
+
+	<!-- Sezione 3 preferenze cibo di strada -->
+            <div class="section">
+                <h2>Sezione 3: Preferenze sul cibo di strada</h2>
+
+		<label>Quanto ti piace il concetto di "food truck" rispetto ai ristoranti tradizionali? (1: per niente, 5: molto)</label>
+		<select name="interesse_foodtruck" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto apprezzi un’offerta di cibo sostenibile ed eco-friendly? (1: per niente, 5: molto)</label>
+		<select name="interesse_cibo_sostenibile" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto conta per te che il food truck sia posizionato in una zona centrale? (1: per niente, 5: molto)</label>
+		<select name="importanza_posizione" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Sei interessato a food truck che partecipano ad eventi e festival gastronomici? (1: per niente, 5: molto)</label>
+		<select name="interesse_festival" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto conta per te la varietà del menù offerto? (1: per niente, 5: molto)</label>
+		<select name="varieta_menu" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto è importante per te la presentazione del cibo servito? (1: per niente, 5: molto)</label>
+		<select name="importanza_presentazione" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+            </div>
+
+		<!-- Sezione 4 Conoscenza e frequentazione -->
+		<div class="section">
+                	<h2>Sezione 4: Conoscenza e frequentazione</h2>
+
+		<label>Quanti food truck conosci attualmente?</label>
+		<select name="conoscenza_foodtruck" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="Nessuno">Nessuno</option>
+    			<option value="1-3">1-3</option>
+    			<option value="4-6">4-6</option>
+    			<option value="7+">7 o più</option>
+		</select>
+
+		<label>Quanti food truck frequenti abitualmente?</label>
+		<select name="frequenza_foodtruck" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="Nessuno">Nessuno</option>
+    			<option value="1-2">1-2</option>
+    			<option value="3-4">3-4</option>
+    			<option value="5+">5 o più</option>
+		</select>
+            </div>
+
+		<!-- Sezione 5 Abitudini Personali -->
+		<div class="section">
+                	<h2>Sezione 5: Abitudini Personali</h2>
+
+		<label>Quanto sei disposto a pagare per un pasto completo da un food truck? (1: meno di 5€, 5: oltre 15€)</label>
+		<select name="disponibilita_pagamento" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Meno di 5€</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Oltre 15€</option>
+		</select>
+
+		<label>Quanto è importante per te la qualità delle materie prime utilizzate? (1: per niente, 5: molto)</label>
+		<select name="importanza_qualita_materie_prime" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto tempo saresti disposto a dedicare per aspettare il tuo ordine? (1: meno di 5 minuti, 5: oltre 15 minuti)</label>
+		<select name="tempo_aspettare_ordine" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Meno di 5 minuti</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Oltre 15 minuti</option>
+		</select>
+
+		<label>Quanto influenzano le recensioni o i consigli di amici nelle tue scelte alimentari? (1: per niente, 5: molto)</label>
+		<select name="influenza_recensioni" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<!-- Sezione 6 Aspettative di Servizio -->
+		<div class="section">
+                	<h2>Sezione 6: Aspettative di Servizio</h2>
+
+		<label>Quanto è importante per te che il cibo venga preparato al momento? (1: per niente, 5: molto)</label>
+		<select name="importanza_preparazione_al_momento" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto valuti la possibilità di prenotare online o di utilizzare un’app per ordinare? (1: per niente, 5: molto)</label>
+		<select name="interesse_prenotazione_online" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+		<label>Quanto sei attratto da un food truck con una forte identità visiva e branding? (1: per niente, 5: molto)</label>
+		<select name="attrazione_branding" required>
+    			<option value="">Seleziona una risposta</option>
+    			<option value="1">1: Per niente</option>
+    			<option value="2">2</option>
+    			<option value="3">3</option>
+    			<option value="4">4</option>
+    			<option value="5">5: Molto</option>
+		</select>
+
+            </div>
+
+            <!-- Invio -->
+            <button type="submit">Invia</button>
+        </form>
+    </section>
+
+    <!-- Thank You Page -->
+    <section id="thank-you" style="display:none;">
+        <h1>Grazie per aver partecipato!</h1>
+        <p>Le tue risposte sono state registrate.</p>
+    </section>
+
+    <script>
+        function startSurvey() {
+            document.getElementById('landing').style.display = 'none';
+            document.getElementById('survey').style.display = 'block';
+        }
+
+        function updateProvinces() {
+            const regioniProvince = {
+                "Abruzzo": ["Chieti", "L'Aquila", "Pescara", "Teramo"],
+                "Basilicata": ["Matera", "Potenza"],
+		"Calabria": ["Catanzaro", "Cosenza", "Reggio Calabria", "Vibo Valentia", "Crotone"],
+                "Campania": ["Napoli", "Salerno", "Avellino", "Caserta", "Benevento"],
+		"Emilia-Romagna": ["Bologna", "Modena", "Reggio Emilia", "Parma", "Ravenna", "Ferrara", "Forlì-Cesena", "Rimini", "Piacenza"],
+                "Friuli Venezia Giulia": ["Trieste", "Udine", "Pordenone", "Gorizia"],
+		"Lazio": ["Roma", "Latina", "Frosinone", "Viterbo", "Rieti"],
+                "Liguria": ["Genova", "Imperia", "Savona", "La Spezia"],
+		"Lombardia": ["Milano", "Bergamo", "Brescia", "Como", "Cremona", "Lecco", "Lodi", "Mantova", "Monza e Brianza", "Pavia", "Sondrio", "Varese"],
+                "Marche": ["Ancona", "Pesaro e Urbino", "Macerata", "Ascoli Piceno", "Fermo"],
+		"Molise": ["Campobasso", "Isernia"],
+                "Piemonte": ["Torino", "Alessandria", "Asti", "Biella", "Cuneo", "Novara", "Verbano-Cusio-Ossola", "Vercelli"],
+		"Puglia": ["Bari", "Taranto", "Brindisi", "Lecce"],
+		"Sardegna": ["Cagliari", "Sassari", "Nuoro", "Oristano", "Sud Sardegna"],
+		"Sicilia": ["Palermo", "Messina", "Siracusa", "Trapani", "Ragusa", "Agrigento", "Caltanissetta", "Enna", "Catania"],
+		"Toscana": ["Firenze", "Pisa", "Prato", "Livorno", "Arezzo", "Lucca", "Siena", "Grosseto", "Pistoia", "Massa-Carrara"],
+		"Trentino-Alto Adige/Südtirol": ["Trento", "Bolzano"],
+		"Umbria": ["Perugia", "Terni"],
+		"Valle d'Aosta": ["Aosta"],
+		"Veneto": ["Venezia", "Verona", "Vicenza", "Padova", "Treviso", "Belluno", "Rovigo"],
+
+            };
+            const regioneSelezionata = document.getElementById('regioni').value;
+            const provinceDropdown = document.getElementById('province');
+            provinceDropdown.innerHTML = "<option value=''>Seleziona Provincia</option>";
+            if (regioniProvince[regioneSelezionata]) {
+                regioniProvince[regioneSelezionata].forEach(provincia => {
+                    const option = document.createElement('option');
+                    option.value = provincia;
+                    option.textContent = provincia;
+                    provinceDropdown.appendChild(option);
+                });
+            }
+        }
+    document.querySelector("form").addEventListener("submit", function(event) {
+        // Recupera tutti i campi di input del modulo
+        var inputs = document.querySelectorAll("input, select, textarea");
+        var isValid = true;
+
+        // Verifica se ogni campo è stato compilato
+        inputs.forEach(function(input) {
+            if (!input.value) {
+                isValid = false;
+                input.style.borderColor = "red"; // Evidenzia il campo non compilato
+            } else {
+                input.style.borderColor = ""; // Rimuove l'evidenziazione se il campo è compilato
+            }
+        });
+
+        // Se un campo non è compilato, impedisce l'invio del modulo
+        if (!isValid) {
+            alert("Per favore compila tutti i campi obbligatori.");
+            event.preventDefault(); // Impedisce l'invio del modulo
+        }
+    });
+
+	const form = document.getElementById('voting-form');
+	form.addEventListener('submit', async (event) => {
+   		event.preventDefault();
+    		const formData = new FormData(form);
+    		const vote = formData.get('vote');
+    		const response = await fetch('/submit-vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vote }),
+    });
+    alert(await response.text());
+});
+
+    </script>
+</body>
+</html>
